@@ -11,6 +11,8 @@
     "reverse:db": "sequelize-auto -o ./schema-reverse -d project-assignment -h localhost -u postgres -p 5432 -x admin -e postgres"
   },
   "dependencies": {
+    "@headlessui/react": "^1.1.1",
+    "@heroicons/react": "^1.0.1",
     "@hot-loader/react-dom": "^17.0.1",
     "@popperjs/core": "^2.9.0",
     "@tailwindcss/custom-forms": "^0.2.1",
@@ -52,6 +54,7 @@
     "less-loader": "^8.1.1",
     "mocha": "^8.3.2",
     "nodemon": "^2.0.7",
+    "nyc": "^15.1.0",
     "postcss": "^8.2.7",
     "postcss-loader": "^5.0.0",
     "sequelize-auto": "^0.7.11",

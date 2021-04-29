@@ -6,8 +6,8 @@ import cors from "cors";
 
 import helmet from "helmet";
 
-import models from './models/index';
-import routes from './routes/indexRoutes';
+import models from "./models/index";
+import routes from "./routes/indexRoutes";
 
 const app = express();
 
@@ -22,6 +22,19 @@ app.use(compress());
 // enable CORS - Cross Origin Resource Sharing
 app.use(cors());
 
+// 1. client-side
+import React from "react";
+import ReactDOMServer from "react-dom/server";
+import MainRouter from "./../client/MainRouter";
+import { StaticRouter } from "react-router-dom";
+import Template from "./../template";
+
+//comment script dibawah before building for production
+import devBundle from "./devBundle";
+
+// client-side : gunakan ketika development only
+devBundle.compile(app);
+
 //comment script dibawah before building for production
 const CURRENT_WORKING_DIR = process.cwd();
 app.use("/dist", express.static(path.join(CURRENT_WORKING_DIR, "dist")));
@@ -32,17 +45,30 @@ app.use("/hr/api/v1/test", (req, res) => {
 
 // #middleware
 app.use(async (req, res, next) => {
-  req.context = {models};
+  req.context = { models };
   next();
 });
 
-app.use('/api/users', routes.usersRoute);
-app.use('/api/employees', routes.employeesRoute);
-app.use('/api/projects', routes.projectsRoute);
-app.use('/api/projects-assignment', routes.paRoutes);
-app.use('/api/upload',routes.uploadDownload);
+app.use("/api/users", routes.usersRoute);
+app.use("/api/employees", routes.employeesRoute);
+app.use("/api/projects", routes.projectsRoute);
+app.use("/api/projects-assignment", routes.paRoutes);
+app.use("/api/upload", routes.uploadDownload);
 
+// 2. Client-Side : ReactDOMServer.
+app.get("/hr/*", (req, res) => {
+  const context = {};
+  const markup = ReactDOMServer.renderToString(
+    <StaticRouter location={req.url} context={context}>
+      <MainRouter />
+    </StaticRouter>
+  );
+  if (context.url) {
+    return res.redirect(303, context.url);
+  }
 
+  res.status(200).send(Template());
+});
 
 // Catch unauthorised errors
 app.use((err, req, res, next) => {
