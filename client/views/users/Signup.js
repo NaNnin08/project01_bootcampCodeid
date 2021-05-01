@@ -14,18 +14,21 @@ export const Signup = () => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const onSubmit = () => {
-    const user = {
-      user_name: values.user_name,
-      user_email: values.user_email,
-      user_password: values.user_password,
-      user_type: values.user_type,
-    };
-
-    if (user.user_name !== "") {
-      ApiUser.create(user).then((result) => {
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (
+      values.user_email &&
+      values.user_name &&
+      values.user_password &&
+      values.user_type
+    ) {
+      ApiUser.create(values).then((result) => {
         console.log(result);
       });
+      alert("Thank to Register, Please login to your account");
+      location.href = "/hr/signin/";
+    } else {
+      alert("Please fill all data");
     }
   };
 
@@ -44,7 +47,7 @@ export const Signup = () => {
               Create an account
             </h1>
           </div>
-          <form method="POST" action="#" className="p-0">
+          <form method="POST" className="p-0">
             <div className="mt-5">
               <input
                 type="text"
