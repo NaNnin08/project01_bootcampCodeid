@@ -11,6 +11,18 @@ const create = async (user) => {
     });
 };
 
+const login = async (user) => {
+  await axios
+    .post("/api/users/signin", user)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error.message;
+    });
+};
+
 export default {
   create,
+  login,
 };

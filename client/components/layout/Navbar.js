@@ -57,7 +57,7 @@ export default function Navbar() {
                       Sign up
                     </Link>
                     <Link
-                      to="/hr/dashboard/"
+                      to="/hr/signin/"
                       className="hover:bg-yellow-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                     >
                       Sign in

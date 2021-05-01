@@ -22,9 +22,11 @@ export const Signup = () => {
       user_type: values.user_type,
     };
 
-    ApiUser.create(user).then((result) => {
-      console.log(result);
-    });
+    if (user.user_name !== "") {
+      ApiUser.create(user).then((result) => {
+        console.log(result);
+      });
+    }
   };
 
   return (
@@ -51,6 +53,7 @@ export const Signup = () => {
                 className="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent "
                 placeholder="Username"
                 onChange={handleChange("user_name")}
+                required
               />
             </div>
             <div className="mt-5">
@@ -61,6 +64,7 @@ export const Signup = () => {
                 className="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent "
                 placeholder="Email"
                 onChange={handleChange("user_email")}
+                required
               />
             </div>
             <div className="mt-5">
@@ -71,14 +75,16 @@ export const Signup = () => {
                 className="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent  "
                 placeholder="Password"
                 onChange={handleChange("user_password")}
+                required
               />
             </div>
             <div className="mt-5">
               <select
                 id="user_type"
-                name="user_password"
+                name="user_type"
                 className="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent "
                 onChange={handleChange("user_type")}
+                required
               >
                 <option value="" disabled selected hidden>
                   Select User Type
@@ -115,7 +121,7 @@ export const Signup = () => {
             </div>
             <div className="mt-10">
               <button
-                type="button"
+                type="submit"
                 className="py-3 bg-green-500 text-white w-full rounded hover:bg-green-600"
                 onClick={onSubmit}
               >
