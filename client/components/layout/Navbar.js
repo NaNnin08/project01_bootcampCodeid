@@ -7,58 +7,54 @@ import Icon from "../../assets/images/project-icon.svg";
 const navigation = ["Dashboard", "Team", "Projects", "Reports"];
 const profile = ["Your Profile", "Sign in", "Sign up"];
 
-export default function Navbar() {
+export default function Navbar(props) {
   return (
     <>
       <Disclosure as="nav" className="bg-green-500">
         {({ open }) => (
           <>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto py-1 px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-between h-16">
-                <div className="flex items-center">
+                <div className="flex items-center -ml-5">
                   <div className="flex-shrink-0">
-                    <img className="w-12" src={Icon} alt="Workflow" />
+                    <Link to="/hr/" onClick={props.setIsLogin}>
+                      <img className="w-40" src={Icon} alt="Workflow" />
+                    </Link>
                   </div>
                   <div className="hidden md:block">
-                    <div className="ml-10 flex items-baseline space-x-4">
+                    <div className="ml-10 flex items-baseline space-x-4 text-lg">
                       <Link
                         to="/hr/dashboard/"
-                        className="hover:bg-yellow-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                        className="hover:bg-yellow-300 hover:text-white px-3 py-2 rounded-md font-medium"
                       >
                         Dashboard
                       </Link>
                       <Link
-                        to="/hr/dashboard/"
-                        className="hover:bg-yellow-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                        to="/hr/employees/"
+                        className="hover:bg-yellow-300 hover:text-white px-3 py-2 rounded-md font-medium"
                       >
                         Employees
                       </Link>
                       <Link
-                        to="/hr/dashboard/"
-                        className="hover:bg-yellow-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                        to="/hr/projects/"
+                        className="hover:bg-yellow-300 hover:text-white px-3 py-2 rounded-md font-medium"
                       >
                         Projects
-                      </Link>
-                      <Link
-                        to="/hr/dashboard/"
-                        className="hover:bg-yellow-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                      >
-                        Report
                       </Link>
                     </div>
                   </div>
                 </div>
                 <div className="hidden md:block">
-                  <div className="ml-4 flex items-center md:ml-6">
+                  <div className="ml-4 flex items-center md:ml-6  text-base">
                     <Link
                       to="/hr/signup/"
-                      className="hover:bg-yellow-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                      className="hover:bg-black hover:border-bg-white hover:text-white px-3 py-1 rounded-md font-medium bg-white"
                     >
                       Sign up
                     </Link>
                     <Link
                       to="/hr/signin/"
-                      className="hover:bg-yellow-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                      className="hover:bg-white px-3 py-1 border border-white ml-1 rounded-md font-medium"
                     >
                       Sign in
                     </Link>

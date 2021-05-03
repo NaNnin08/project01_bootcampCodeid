@@ -132,7 +132,7 @@ export const Signup = () => {
               </button>
             </div>
           </form>
-          <a className="" href="/login" data-test="Link">
+          <a className="" href="/hr/signin/" data-test="Link">
             <span className="block  p-5 text-center text-gray-800  text-xs ">
               Already have an account?
             </span>
