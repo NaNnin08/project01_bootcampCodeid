@@ -5,7 +5,7 @@ import Navbar from "../components/layout/Navbar";
 import Landing from "./Landing";
 
 export default function MainLayout(props) {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   return (
     <div>
       <Helmet>

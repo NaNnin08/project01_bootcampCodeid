@@ -41,6 +41,12 @@ export default function Navbar(props) {
                       >
                         Projects
                       </Link>
+                      <Link
+                        to="/hr/assignment/"
+                        className="hover:bg-yellow-300 hover:text-white px-3 py-2 rounded-md font-medium"
+                      >
+                        Assignment
+                      </Link>
                     </div>
                   </div>
                 </div>

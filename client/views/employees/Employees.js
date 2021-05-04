@@ -72,7 +72,7 @@ export const Employees = () => {
             </thead>
             <tbody className="divide-y divide-gray-200">
               {employees.map((data) => (
-                <tr>
+                <tr key={data.empe_id}>
                   <td className="px-6 py-4">
                     <div className="flex items-center space-x-3">
                       <div className="inline-flex w-10 h-10">

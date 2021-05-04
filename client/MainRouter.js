@@ -5,19 +5,20 @@ import Home from "./views/Home";
 import { Signup } from "./views/users/Signup";
 import { Signin } from "./views/users/Signin";
 import { Projects } from "./views/projects/Projects";
-import Landing from "./views/Landing";
 import { Employees } from "./views/employees/Employees";
+import { assignment } from "./views/assignment/Assignment";
 
 const MainRouter = () => {
   return (
     <>
       <Switch>
+        <Route exact path="/hr/signup/" component={Signup} />
+        <Route exact path="/hr/signin/" component={Signin} />
         <MainLayout>
-          <Route exact path="/hr/signup/" component={Signup} />
-          <Route exact path="/hr/signin/" component={Signin} />
           <Route exact path="/hr/dashboard/" component={Home} />
           <Route exact path="/hr/projects/" component={Projects} />
           <Route exact path="/hr/employees/" component={Employees} />
+          <Route exact path="/hr/assignment/" component={assignment} />
         </MainLayout>
       </Switch>
     </>
