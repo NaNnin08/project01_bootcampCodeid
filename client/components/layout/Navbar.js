@@ -1,13 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Disclosure } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import Icon from "../../assets/images/project-icon.svg";
+import ApiUser from "../../views/users/ApiUser";
 
 const navigation = ["Dashboard", "Team", "Projects", "Reports"];
 const profile = ["Your Profile", "Sign in", "Sign up"];
 
 export default function Navbar(props) {
+  const [isCookie, setIsCookie] = useState();
+  const [status, setStatus] = useState(false);
+
+  useEffect(() => {
+    let cookieValue = document.cookie.substr(2);
+    setIsCookie(cookieValue);
+  }, []);
+
+  const handleClick = () => {
+    ApiUser.logout().then((result) => {
+      console.log(result);
+    });
+    location.href = "/hr/";
+    props.sendToParent(isCookie);
+  };
+
   return (
     <>
       <Disclosure as="nav" className="bg-green-500">
@@ -64,6 +81,12 @@ export default function Navbar(props) {
                     >
                       Sign in
                     </Link>
+                    <buttom
+                      className="cursor-pointer hover:bg-white px-3 py-1 border border-white ml-1 rounded-md font-medium"
+                      onClick={() => handleClick()}
+                    >
+                      Sign out
+                    </buttom>
                   </div>
                 </div>
                 <div className="-mr-2 flex md:hidden">
@@ -82,27 +105,45 @@ export default function Navbar(props) {
 
             <Disclosure.Panel className="md:hidden">
               <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                {navigation.map((item, itemIdx) => (
-                  <a
-                    key={item}
-                    href="#"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                  >
-                    {item}
-                  </a>
-                ))}
+                <Link
+                  to="/hr/dashboard/"
+                  className="block hover:bg-yellow-300 hover:text-white px-3 py-2 rounded-md font-medium"
+                >
+                  Dashboard
+                </Link>
+                <Link
+                  to="/hr/employees/"
+                  className="block hover:bg-yellow-300 hover:text-white px-3 py-2 rounded-md font-medium"
+                >
+                  Employees
+                </Link>
+                <Link
+                  to="/hr/projects/"
+                  className="block hover:bg-yellow-300 hover:text-white px-3 py-2 rounded-md font-medium"
+                >
+                  Projects
+                </Link>
+                <Link
+                  to="/hr/assignment/"
+                  className="block hover:bg-yellow-300 hover:text-white px-3 py-2 rounded-md font-medium"
+                >
+                  Assignment
+                </Link>
               </div>
               <div className="pt-4 pb-3 border-t border-gray-700">
                 <div className="mt-3 px-2 space-y-1">
-                  {profile.map((item) => (
-                    <a
-                      key={item}
-                      href="#"
-                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
-                    >
-                      {item}
-                    </a>
-                  ))}
+                  <Link
+                    to="/hr/signup/"
+                    className="block hover:bg-yellow-300 hover:text-white px-3 py-2 rounded-md font-medium"
+                  >
+                    Sign up
+                  </Link>
+                  <Link
+                    to="/hr/signin/"
+                    className="block hover:bg-yellow-300 hover:text-white px-3 py-2 rounded-md font-medium"
+                  >
+                    Sign in
+                  </Link>
                 </div>
               </div>
             </Disclosure.Panel>

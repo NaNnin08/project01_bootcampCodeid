@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { Helmet } from "react-helmet";
 import ProjectImage from "../../assets/images/sign-in.svg";
+import Favicon from "../../assets/images/icon.svg";
 import ApiUser from "./ApiUser";
 
 export const Signin = () => {
@@ -12,20 +14,29 @@ export const Signin = () => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
+    e.preventDefault();
     const user = {
       user_email: values.user_email,
       user_password: values.user_password,
     };
 
-    if (user.user_email !== "") {
-      ApiUser.create(user).then((result) => {
-        console.log(result);
+    if (user.user_email && user.user_password) {
+      ApiUser.login(user).then((result) => {
+        alert(result.token);
+        location.href = "/hr/dashboard/";
       });
+    } else {
+      alert("email dan password harap diisi");
     }
   };
   return (
     <>
+      <Helmet>
+        <title>Login</title>
+        <link rel="shortcut icon" href={Favicon} />
+      </Helmet>
+
       <section className="min-h-screen flex items-stretch">
         <div
           className="lg:flex w-screen md:hidden sm:hidden hidden bg-contain relative ml-30 items-center bg-no-repeat"

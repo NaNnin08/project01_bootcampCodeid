@@ -1,41 +1,19 @@
-import React from 'react'
+import React from "react";
 
 export default function Footer() {
-    return (
-        <>
-        <footer className="block py-1">
-          <div className="container mx-auto px-4">
-            <hr className="mb-4 border-b-1 border-gray-100" />
-            <div className="flex flex-wrap items-center md:justify-between justify-center">
-              <div className="w-full md:w-4/12 px-4">
-                <div className="text-sm text-gray-600 font-semibold py-1 text-center md:text-left">
-                  Copyright © {new Date().getFullYear()}{" "}
-                  <a
-                    href="https://www.creative-tim.com?ref=nr-footer-admin"
-                    className="text-gray-600 hover:text-gray-800 text-sm font-semibold py-1"
-                  >
-                    
-                  </a>
-                </div>
-              </div>
-              <div className="w-full md:w-8/12 px-4">
-                <ul className="flex flex-wrap list-none md:justify-end  justify-center">
-                 
-                  <li>
-                    <a
-                      href="https://www.creative-tim.com/presentation?ref=nr-footer-admin"
-                      className="text-gray-700 hover:text-gray-900 text-sm font-semibold block py-1 px-3"
-                    >
-                      About Us
-                    </a>
-                  </li>
-                
-               
-                </ul>
-              </div>
+  return (
+    <>
+      <footer className="relative clear-both bg-white relative pt-1 border-b-2 border-green-700">
+        <div className="container mx-auto px-6">
+          <div className="mt-16 border-t-2 border-gray-300 flex flex-col items-center">
+            <div className="sm:w-2/3 text-center py-3">
+              <p className="text-sm text-green-700 font-bold mb-2">
+                © 2021 by Nida Sunandar
+              </p>
             </div>
           </div>
-        </footer>
-      </>
-    )
+        </div>
+      </footer>
+    </>
+  );
 }

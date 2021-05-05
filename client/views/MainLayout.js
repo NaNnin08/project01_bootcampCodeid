@@ -3,9 +3,11 @@ import Favicon from "../assets/images/icon.svg";
 import { Helmet } from "react-helmet";
 import Navbar from "../components/layout/Navbar";
 import Landing from "./Landing";
+import Footer from "../components/layout/Footer";
 
 export default function MainLayout(props) {
   const [isLogin, setIsLogin] = useState(true);
+  const [cook, setCook] = useState("");
   return (
     <div>
       <Helmet>
