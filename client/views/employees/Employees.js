@@ -51,7 +51,7 @@ export const Employees = () => {
   return (
     <>
       <Header title="Daftar Employees" setModal={() => onCreate()} />
-      <div className="min-h-screen flex px-4">
+      <div className="min-h-screen flex px-4 mt-12">
         <div className="overflow-x-auto w-full">
           <table className="mx-auto max-w-4xl w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden">
             <thead className="bg-gray-50">
@@ -66,7 +66,9 @@ export const Employees = () => {
                   Department
                 </th>
                 <th className="font-semibold text-sm uppercase px-6 py-4"></th>
-                <th className="font-semibold text-sm uppercase px-6 py-4"></th>
+                <th className="font-semibold text-sm uppercase px-6 py-4">
+                  Action
+                </th>
                 <th className="font-semibold text-sm uppercase px-6 py-4"></th>
               </tr>
             </thead>

@@ -7,9 +7,8 @@ import Footer from "../components/layout/Footer";
 
 export default function MainLayout(props) {
   const [isLogin, setIsLogin] = useState(true);
-  const [cook, setCook] = useState("");
   return (
-    <div>
+    <div className="bg-gray-100">
       <Helmet>
         <title>Project Assignment</title>
         <link rel="shortcut icon" href={Favicon} />
@@ -28,6 +27,8 @@ export default function MainLayout(props) {
       ) : (
         <Landing />
       )}
+
+      <Footer />
     </div>
   );
 }

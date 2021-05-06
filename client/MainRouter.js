@@ -7,11 +7,13 @@ import { Signin } from "./views/users/Signin";
 import { Projects } from "./views/projects/Projects";
 import { Employees } from "./views/employees/Employees";
 import { assignment } from "./views/assignment/Assignment";
+import Landing from "./views/Landing";
 
 const MainRouter = () => {
   return (
     <>
       <Switch>
+        <Route exact path="/hr/" component={Landing} />
         <Route exact path="/hr/signup/" component={Signup} />
         <Route exact path="/hr/signin/" component={Signin} />
         <MainLayout>
