@@ -96,10 +96,10 @@ export const Employees = () => {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <p className="">{data.empe_position}</p>
+                    <p className="capitalize">{data.empe_position}</p>
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <p>{data.empe_department_name}</p>
+                    <p className="capitalize">{data.empe_department_name}</p>
                   </td>
                   <td className="px-6 py-4 text-center">
                     <a href="#" className="text-purple-800 hover:underline">

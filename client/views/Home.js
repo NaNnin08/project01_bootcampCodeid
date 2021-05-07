@@ -66,7 +66,53 @@ export default function Home() {
     ).length,
   };
 
-  console.log(assignment_status);
+  const employees_department = {
+    it_director: datas.employees.filter(
+      (data) =>
+        data.empe_position === "director" && data.empe_department_name === "it"
+    ).length,
+    it_manager: datas.employees.filter(
+      (data) =>
+        data.empe_position === "manager" && data.empe_department_name === "it"
+    ).length,
+    it_programmer: datas.employees.filter(
+      (data) =>
+        data.empe_position === "programmer" &&
+        data.empe_department_name === "it"
+    ).length,
+    hr_director: datas.employees.filter(
+      (data) =>
+        data.empe_position === "director" &&
+        data.empe_department_name === "human resource"
+    ).length,
+    hr_manager: datas.employees.filter(
+      (data) =>
+        data.empe_position === "manager" &&
+        data.empe_department_name === "human resource"
+    ).length,
+    hr_programmer: datas.employees.filter(
+      (data) =>
+        data.empe_position === "programmer" &&
+        data.empe_department_name === "human resource"
+    ).length,
+    sales_director: datas.employees.filter(
+      (data) =>
+        data.empe_position === "director" &&
+        data.empe_department_name === "sales"
+    ).length,
+    sales_manager: datas.employees.filter(
+      (data) =>
+        data.empe_position === "manager" &&
+        data.empe_department_name === "sales"
+    ).length,
+    sales_programmer: datas.employees.filter(
+      (data) =>
+        data.empe_position === "programmer" &&
+        data.empe_department_name === "sales"
+    ).length,
+  };
+
+  console.log(employees_department);
 
   const state_projects_category = {
     labels: ["Maintenance", "Software", "Outsource"],
@@ -115,6 +161,57 @@ export default function Home() {
     ],
   };
 
+  const state_employee_department = {
+    labels: ["It", "Human Resource", "Sales"],
+    datasets: [
+      {
+        label: "Director",
+        data: [
+          employees_department.it_director,
+          employees_department.hr_director,
+          employees_department.sales_director,
+        ],
+        backgroundColor: "rgb(255, 99, 132)",
+      },
+      {
+        label: "Manager",
+        data: [
+          employees_department.it_manager,
+          employees_department.hr_manager,
+          employees_department.sales_manager,
+        ],
+        backgroundColor: "rgb(54, 162, 235)",
+      },
+      {
+        label: "Programmer",
+        data: [
+          employees_department.it_programmer,
+          employees_department.hr_programmer,
+          employees_department.sales_programmer,
+        ],
+        backgroundColor: "rgb(75, 192, 192)",
+      },
+    ],
+  };
+
+  const options_employee_department = {
+    scales: {
+      yAxes: [
+        {
+          stacked: true,
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
+      xAxes: [
+        {
+          stacked: true,
+        },
+      ],
+    },
+  };
+
   return (
     <div className="min-h-screen">
       <div className="absolute left-0 w-full py-3 pl-5 md:pl-12 -mt-6 bg-white shadow-md">
@@ -126,69 +223,85 @@ export default function Home() {
 
       <HeaderStats data={datas} />
 
-      <div className="absolute w-1/3 -mt-20 ml-40 bg-white shadow-md">
-        <h1 className="ml-2 mt-2 text-xl font-bold leading-7 text-gray-900 sm:truncate">
-          Project by Category
-        </h1>
-        <div className="px-10 pt-3">
-          <Bar
-            data={state_projects_category}
-            options={{
-              title: {
-                display: true,
-                text: "Projects by category",
-                fontSize: 11,
-              },
-              legend: {
-                display: true,
-                position: "right",
-              },
-            }}
-          />
+      <div className="flex flex-col min-h-screen -mt-32 md:-mt-0 items-center md:items-start">
+        <div className="md:absolute md:w-1/3 w-5/6 md:-mt-20 md:ml-40 bg-white shadow-md">
+          <h1 className="ml-2 mt-2 text-xl font-bold leading-7 text-gray-900 sm:truncate">
+            Project by Category
+          </h1>
+          <div className="px-10 pt-3">
+            <Bar
+              data={state_projects_category}
+              options={{
+                title: {
+                  display: true,
+                  text: "Projects by category",
+                  fontSize: 11,
+                },
+                legend: {
+                  display: true,
+                  position: "right",
+                },
+              }}
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="absolute w-1/3 right-0 -mt-14 mr-40 bg-white shadow-md">
-        <h1 className="ml-2 mt-2 text-xl font-bold leading-7 text-gray-900 sm:truncate">
-          User by Category
-        </h1>
-        <div className="px-10 pt-3">
-          <Doughnut
-            data={state_user_category}
-            options={{
-              title: {
-                display: true,
-                text: "Users by Category",
-                fontSize: 20,
-              },
-              legend: {
-                display: true,
-                position: "right",
-              },
-            }}
-          />
+        <div className="md:absolute mt-5 w-5/6 md:w-1/3 right-0 md:-mt-14 md:mr-40 bg-white shadow-md flex-1">
+          <h1 className="ml-2 mt-2 text-xl font-bold leading-7 text-gray-900 sm:truncate">
+            User by Category
+          </h1>
+          <div className="px-10 pt-3">
+            <Doughnut
+              data={state_user_category}
+              options={{
+                title: {
+                  display: true,
+                  text: "Users by Category",
+                  fontSize: 20,
+                },
+                legend: {
+                  display: true,
+                  position: "right",
+                },
+              }}
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="absolute w-1/3 mt-44 ml-40 bg-white shadow-md">
-        <h1 className="ml-2 mt-2 text-xl font-bold leading-7 text-gray-900 sm:truncate">
-          Assignment by Status
-        </h1>
-        <div className="px-10 pt-3">
-          <Bar
-            data={state_assignment_status}
-            options={{
-              title: {
-                display: true,
-                text: "Projects by category",
-                fontSize: 11,
-              },
-              legend: {
-                display: true,
-                position: "right",
-              },
-            }}
-          />
+        <div className="md:absolute w-5/6 mt-5 md:w-1/3 md:mt-44 md:ml-40 bg-white shadow-md flex-1">
+          <h1 className="ml-2 mt-2 text-xl font-bold leading-7 text-gray-900 sm:truncate">
+            Assignment by Status
+          </h1>
+          <div className="px-10 pt-3">
+            <Bar
+              data={state_assignment_status}
+              options={{
+                title: {
+                  display: true,
+                  text: "Projects by category",
+                  fontSize: 11,
+                },
+                legend: {
+                  display: true,
+                  position: "right",
+                },
+              }}
+            />
+          </div>
+        </div>
+
+        <div className=" mt-5 md:mt-16 w-5/6 md:w-4/5 md:ml-56 flex-1">
+          <div className="md:relative  md:mt-96 md:mr-40 bg-white shadow-md">
+            <h1 className="ml-2 mt-2 text-xl font-bold leading-7 text-gray-900 sm:truncate">
+              Employees by Department
+            </h1>
+            <div className="px-10 pt-3">
+              <Bar
+                data={state_employee_department}
+                options={options_employee_department}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
