@@ -23,6 +23,7 @@ export const Signin = () => {
 
     if (user.user_email && user.user_password) {
       ApiUser.login(user).then((result) => {
+        console.log(result.users);
         alert(result.token);
         location.href = "/hr/dashboard/";
       });

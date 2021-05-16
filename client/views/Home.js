@@ -50,6 +50,56 @@ export default function Home() {
       <HeaderStats data={datas} />
 
       <ChartStats data2={datas} />
+
+      <div className="min-h-screen flex px-4 mt-12">
+        <div className="overflow-x-auto w-full">
+          <table className="mx-auto max-w-4xl w-1/2 whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden">
+            <thead className="bg-gray-50">
+              <tr className="text-gray-600 text-left">
+                <th className="font-semibold text-sm uppercase px-6 py-4">
+                  Projects
+                </th>
+                <th className="font-semibold text-sm uppercase px-6 py-4">
+                  Employees
+                </th>
+                <th className="font-semibold text-sm uppercase px-6 py-4">
+                  Status
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {datas.projects.map((data) => (
+                <tr key={data.proj_id}>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center space-x-3">
+                      <div>
+                        <p className="">{data.proj_name}</p>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td className="px-6 py-4">
+                    {datas.assignment.map(
+                      (data_ass) =>
+                        data_ass.pras_proj_id === data.proj_id && (
+                          <p className="">{data_ass.employee.empe_full_name}</p>
+                        )
+                    )}
+                  </td>
+                  <td className="px-6 py-4 ">
+                    {datas.assignment.map(
+                      (data_ass) =>
+                        data_ass.pras_proj_id === data.proj_id && (
+                          <p className="">{data_ass.pras_staus}</p>
+                        )
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import Favicon from "../../assets/images/icon.svg";
 import ApiUser from "./ApiUser";
@@ -11,23 +11,40 @@ export const Signup = () => {
     user_type: "",
   });
 
+  const [user, setUser] = useState([]);
+
+  useEffect(() => {
+    ApiUser.list()
+      .then((data) => {
+        setUser(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
+
     if (
       values.user_email &&
       values.user_name &&
       values.user_password &&
       values.user_type
     ) {
-      ApiUser.create(values).then((result) => {
-        console.log(result);
-      });
-      alert("Thank to Register, Please login to your account");
-      location.href = "/hr/signin/";
+      if (user.map((rsl) => rsl.user_email).includes(values.user_email)) {
+        alert("email sudah terdaftar");
+      } else {
+        ApiUser.create(values).then((result) => {
+          console.log(result);
+        });
+        alert("Thank to Register, Please login to your account");
+        location.href = "/hr/signin/";
+      }
     } else {
       alert("Please fill all data");
     }

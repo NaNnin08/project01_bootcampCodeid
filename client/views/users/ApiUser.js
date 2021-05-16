@@ -1,5 +1,14 @@
 import axios from "axios";
 
+const list = async () => {
+  try {
+    let response = await axios.get(`/api/users/all/`);
+    return await response.data;
+  } catch (err) {
+    return await err.message;
+  }
+};
+
 const create = async (user) => {
   await axios
     .post("/api/users/signup", user)
@@ -41,4 +50,5 @@ export default {
   create,
   login,
   logout,
+  list,
 };

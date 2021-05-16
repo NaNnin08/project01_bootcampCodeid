@@ -37,7 +37,7 @@ export default function Navbar(props) {
               <div className="flex items-center justify-between">
                 <div className="flex items-center -ml-5">
                   <div className="flex-shrink-0">
-                    <Link to="/hr/" onClick={props.setIsLogin}>
+                    <Link to="/hr/">
                       <img className="w-40" src={Icon} alt="Workflow" />
                     </Link>
                   </div>
