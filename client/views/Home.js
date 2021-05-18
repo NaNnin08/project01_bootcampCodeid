@@ -51,7 +51,7 @@ export default function Home() {
 
       <ChartStats data2={datas} />
 
-      <div className="min-h-screen flex px-4 mt-12">
+      <div className="flex px-4 mt-12">
         <div className="overflow-x-auto w-full">
           <table className="mx-auto max-w-4xl w-1/2 whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden">
             <thead className="bg-gray-50">

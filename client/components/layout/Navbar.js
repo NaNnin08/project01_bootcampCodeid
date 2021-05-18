@@ -5,6 +5,13 @@ import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import Icon from "../../assets/images/project-icon.svg";
 import ApiUser from "../../views/users/ApiUser";
 
+const defaultState = {
+  dasbord: false,
+  employees: false,
+  projects: false,
+  assignment: false,
+};
+
 export default function Navbar(props) {
   const [isCookie, setIsCookie] = useState();
 

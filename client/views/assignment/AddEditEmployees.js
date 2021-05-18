@@ -87,6 +87,27 @@ export default function AddEditAssignment(props) {
     props.setStatus();
   };
 
+  useEffect(() => {
+    const Status = projects
+      .filter((data) => data.proj_id === parseInt(values.pras_proj_id))
+      .map((data) => {
+        let now = new Date();
+        let start = new Date(data.proj_start_date);
+        let end = new Date(data.proj_end_date);
+        if (start - now > 0) {
+          return "start";
+        }
+        if (start - now < 0 && end - now > 0) {
+          return "inprogrees";
+        }
+        if (start - now < 0 && end - now < 0) {
+          return "finished";
+        }
+      })[0];
+
+    setValues({ ...values, pras_staus: Status });
+  }, [values.pras_proj_id]);
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog
@@ -146,26 +167,10 @@ export default function AddEditAssignment(props) {
                       {/** code here... */}
                       <form method="POST" action="#">
                         <div className="grid grid-cols-4 gap-2 mb-2">
-                          <label htmlFor="pras_staus" className="col-span-1">
-                            Status
-                          </label>
-                          <select
-                            className="col-span-3"
-                            id="pras_staus"
-                            name="pras_staus"
-                            value={values.pras_staus}
-                            onChange={handleChange("pras_staus")}
+                          <label
+                            htmlFor="pras_proj_id"
+                            className="col-span-1 mt-2"
                           >
-                            <option value="" disabled selected hidden>
-                              Select User Type
-                            </option>
-                            <option value="start">Start</option>
-                            <option value="inprogrees">Inprogrees</option>
-                            <option value="finished">Finished</option>
-                          </select>
-                        </div>
-                        <div className="grid grid-cols-4 gap-2 mb-2">
-                          <label htmlFor="pras_proj_id" className="col-span-1">
                             Project
                           </label>
                           <select
@@ -176,7 +181,7 @@ export default function AddEditAssignment(props) {
                             onChange={handleChange("pras_proj_id")}
                           >
                             <option value="" disabled selected hidden>
-                              Select User Type
+                              Select Project
                             </option>
                             {projects &&
                               projects.map((data) => {
@@ -191,8 +196,27 @@ export default function AddEditAssignment(props) {
                               })}
                           </select>
                         </div>
+                        {values.pras_proj_id && (
+                          <div className="grid grid-cols-4 gap-2 mb-2">
+                            <label
+                              htmlFor="pras_empe_id"
+                              className="col-span-1"
+                            >
+                              Status
+                            </label>
+                            <input
+                              className="col-span-3 capitalize"
+                              value={values.pras_staus}
+                              placeholder="Status"
+                              readOnly
+                            />
+                          </div>
+                        )}
                         <div className="grid grid-cols-4 gap-2 mb-2">
-                          <label htmlFor="pras_empe_id" className="col-span-1">
+                          <label
+                            htmlFor="pras_empe_id"
+                            className="col-span-1 mt-2"
+                          >
                             Employee
                           </label>
                           <select
@@ -203,7 +227,7 @@ export default function AddEditAssignment(props) {
                             onChange={handleChange("pras_empe_id")}
                           >
                             <option value="" disabled selected hidden>
-                              Select User Type
+                              Select Employee
                             </option>
                             {employees &&
                               employees.map((data) => {
