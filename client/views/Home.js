@@ -60,42 +60,51 @@ export default function Home() {
                   Projects
                 </th>
                 <th className="font-semibold text-sm uppercase px-6 py-4">
-                  Employees
+                  Status
                 </th>
                 <th className="font-semibold text-sm uppercase px-6 py-4">
-                  Status
+                  Employees
                 </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {datas.projects.map((data) => (
-                <tr key={data.proj_id}>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center space-x-3">
-                      <div>
-                        <p className="">{data.proj_name}</p>
-                      </div>
-                    </div>
-                  </td>
+              {datas.projects.map(
+                (data) =>
+                  datas.assignment.filter(
+                    (data_ass) => data_ass.pras_proj_id === data.proj_id
+                  ).length > 0 && (
+                    <tr key={data.proj_id}>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center space-x-3">
+                          <div>
+                            <p className="">{data.proj_name}</p>
+                          </div>
+                        </div>
+                      </td>
 
-                  <td className="px-6 py-4">
-                    {datas.assignment.map(
-                      (data_ass) =>
-                        data_ass.pras_proj_id === data.proj_id && (
-                          <p className="">{data_ass.employee.empe_full_name}</p>
-                        )
-                    )}
-                  </td>
-                  <td className="px-6 py-4 ">
-                    {datas.assignment.map(
-                      (data_ass) =>
-                        data_ass.pras_proj_id === data.proj_id && (
-                          <p className="">{data_ass.pras_staus}</p>
-                        )
-                    )}
-                  </td>
-                </tr>
-              ))}
+                      <td className="px-6 py-4">
+                        <div className="flex items-center space-x-3">
+                          <div>
+                            <p className="capitalize">
+                              {data.projects_assignments[0].pras_staus}
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td className="px-6 py-4">
+                        {datas.assignment.map(
+                          (data_ass) =>
+                            data_ass.pras_proj_id === data.proj_id && (
+                              <p className="">
+                                {data_ass.employee.empe_full_name}
+                              </p>
+                            )
+                        )}
+                      </td>
+                    </tr>
+                  )
+              )}
             </tbody>
           </table>
         </div>

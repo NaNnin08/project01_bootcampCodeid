@@ -20,6 +20,17 @@ const create = async (data) => {
     });
 };
 
+const createMulti = async (data) => {
+  await axios
+    .post(`/api/employees/multipart`, data)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error.message;
+    });
+};
+
 const findOne = async (data) => {
   const empe_id = parseInt(data);
   try {
@@ -53,6 +64,7 @@ const remove = async (data) => {
 export default {
   list,
   create,
+  createMulti,
   findOne,
   update,
   remove,

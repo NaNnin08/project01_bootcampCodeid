@@ -7,7 +7,7 @@ export default function NavbarLanding(props) {
     <>
       <div className="mt-5 hidden md:block"></div>
       <>
-        <div className="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8 overflow-hidden sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8 overflow-hidden sticky bg-white top-0 z-50">
           <div className="flex items-center justify-between">
             <div className="flex items-center md:-ml-5">
               <div className="flex-shrink-0">

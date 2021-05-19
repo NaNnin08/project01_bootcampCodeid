@@ -1,3 +1,8 @@
+import formidable from "formidable";
+import fs from "fs";
+
+const pathDir = __dirname + "../../uploads/";
+
 // create new data
 const create = async (req, res) => {
   const empeloyees = await req.context.models.Employees.create({
@@ -111,6 +116,47 @@ const createII = async (req, res, next) => {
   next();
 };
 
+const createProfile = (req, res) => {
+  if (!fs.existsSync(pathDir)) {
+    fs.mkdirSync(pathDir);
+  }
+
+  const form = formidable({
+    multiples: true,
+    uploadDir: pathDir,
+    keepExtensions: true,
+  });
+
+  form
+    .on("fileBegin", function (name, file) {
+      //rename the incoming file to the file's name
+      file.path = pathDir + file.name;
+    })
+    .parse(req, async (err, fields, files) => {
+      if (err) {
+        res.status(400).json({
+          message: "Image tidak bisa diupload",
+        });
+      }
+
+      let employee = new req.context.models.Employees(fields);
+
+      if (files) {
+        employee.empe_image = files.empe_image.name;
+        console.log(employee);
+      }
+
+      try {
+        const result = await req.context.models.Employees.create(
+          employee.dataValues
+        );
+        return res.send(result);
+      } catch (error) {
+        res.send(error.message);
+      }
+    });
+};
+
 export default {
   create,
   findAll,
@@ -120,4 +166,5 @@ export default {
   image,
   multiImage,
   createII,
+  createProfile,
 };

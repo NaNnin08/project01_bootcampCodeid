@@ -32,13 +32,13 @@ export const Signin = () => {
     }
   };
   return (
-    <>
+    <div className="md:bg-gray-300 md:min-h-screen">
       <Helmet>
         <title>Login</title>
         <link rel="shortcut icon" href={Favicon} />
       </Helmet>
 
-      <div className="flex w-5/6 mx-auto mt-10 shadow-2xl">
+      <div className="flex w-5/6 mt-10 md:ml-24 mx-auto shadow-2xl md:absolute bg-white">
         <div className="hidden md:block w-2/3 border border-gray-200 rounded">
           <img src={ProjectImage} alt="image" />
         </div>
@@ -130,6 +130,6 @@ export const Signin = () => {
           </form>
         </div>
       </section> */}
-    </>
+    </div>
   );
 };

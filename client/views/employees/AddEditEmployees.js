@@ -17,7 +17,17 @@ export default function AddEditEmployees(props) {
     empe_position: undefined,
     empe_department_name: undefined,
     empe_image: undefined,
+    error: "",
   });
+
+  const [blob, setBlob] = useState([]);
+  const [files, setFiles] = useState([]);
+
+  const uploadSingleFile = (name) => (event) => {
+    setBlob({ ...blob, [name]: URL.createObjectURL(event.target.files[0]) });
+
+    setFiles({ ...files, [name]: event.target.files[0] });
+  };
 
   // gunakan useEffect untuk edit region
   useEffect(() => {
@@ -37,7 +47,6 @@ export default function AddEditEmployees(props) {
           empe_salary: data.empe_salary,
           empe_position: data.empe_position,
           empe_department_name: data.empe_department_name,
-          empe_image: data.empe_image,
         });
       });
     } else {
@@ -60,22 +69,33 @@ export default function AddEditEmployees(props) {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
+    e.preventDefault();
+
     if (props.employee.actionType === "Add") {
-      const data = {
-        empe_full_name: values.empe_full_name || undefined,
-        empe_email: values.empe_email || undefined,
-        empe_birtdate: values.empe_birtdate || undefined,
-        empe_phone_number: values.empe_phone_number || undefined,
-        empe_hiredate: values.empe_hiredate || undefined,
-        empe_salary: values.empe_salary || undefined,
-        empe_position: values.empe_position || undefined,
-        empe_department_name: values.empe_department_name || undefined,
-        empe_image: values.empe_image || undefined,
-      };
-      //call api u/ insert row
-      ApiEmployees.create(data).then((result) => {
-        console.log(result);
+      let employee = new FormData();
+
+      employee.append("empe_full_name", values.empe_full_name);
+      employee.append("empe_email", values.empe_email);
+      employee.append("empe_birtdate", values.empe_birtdate);
+      employee.append("empe_phone_number", values.empe_phone_number);
+      employee.append("empe_hiredate", values.empe_hiredate);
+      employee.append("empe_salary", parseInt(values.empe_salary));
+      employee.append("empe_position", values.empe_position);
+      employee.append("empe_department_name", values.empe_department_name);
+      files.empe_image && employee.append("empe_image", files.empe_image);
+
+      for (var value of employee.entries()) {
+        console.log(value);
+      }
+
+      ApiEmployees.createMulti(employee).then((data) => {
+        if (data.errors) {
+          console.log("create new record failed");
+          setValues({ ...values, error: data.errors[0].message });
+        } else {
+          console.log("succeed");
+        }
       });
     } else if (props.employee.actionType === "Edit") {
       ApiEmployees.update(values).then((data) => {
@@ -276,6 +296,22 @@ export default function AddEditEmployees(props) {
                             <option value="sales">Sales</option>
                           </select>
                         </div>
+                        {blob.image && (
+                          <div className="mx-auto h-48 w-24 text-gray-400">
+                            <img
+                              src="https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=200&q=200"
+                              alt=""
+                              className="mx-auto h-48 w-48"
+                            />
+                          </div>
+                        )}
+                        <div className="ml-28 mb-2 h-48 w-24 text-gray-400">
+                          <img
+                            src={blob.empe_image}
+                            alt=""
+                            className="h-48 w-48"
+                          />
+                        </div>
                         <div className="grid grid-cols-4 gap-2 mb-2">
                           <label htmlFor="empe_image" className="col-span-1">
                             Image
@@ -285,7 +321,7 @@ export default function AddEditEmployees(props) {
                             id="empe_image"
                             name="empe_image"
                             type="file"
-                            onChange={handleChange("empe_image")}
+                            onChange={uploadSingleFile("empe_image")}
                           />
                         </div>
                       </form>
