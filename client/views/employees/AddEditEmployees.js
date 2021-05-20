@@ -47,6 +47,20 @@ export default function AddEditEmployees(props) {
           empe_salary: data.empe_salary,
           empe_position: data.empe_position,
           empe_department_name: data.empe_department_name,
+          empe_image: data.empe_image,
+        });
+
+        ApiEmployees.showImage(
+          `/api/employees/photo/` + data.empe_image,
+          data.empe_image
+        ).then((result) => {
+          if (result.error) {
+            console.log("Get Image Failed");
+          } else {
+            const x = result;
+            setFiles({ ...files, empe_image: x });
+            setBlob({ ...blob, empe_image: URL.createObjectURL(result) });
+          }
         });
       });
     } else {
@@ -72,23 +86,20 @@ export default function AddEditEmployees(props) {
   const onSubmit = (e) => {
     e.preventDefault();
 
+    let employee = new FormData();
+
+    values.empe_id && employee.append("empe_id", values.empe_id);
+    employee.append("empe_full_name", values.empe_full_name);
+    employee.append("empe_email", values.empe_email);
+    employee.append("empe_birtdate", values.empe_birtdate);
+    employee.append("empe_phone_number", values.empe_phone_number);
+    employee.append("empe_hiredate", values.empe_hiredate);
+    employee.append("empe_salary", parseInt(values.empe_salary));
+    employee.append("empe_position", values.empe_position);
+    employee.append("empe_department_name", values.empe_department_name);
+    files.empe_image && employee.append("empe_image", files.empe_image);
+
     if (props.employee.actionType === "Add") {
-      let employee = new FormData();
-
-      employee.append("empe_full_name", values.empe_full_name);
-      employee.append("empe_email", values.empe_email);
-      employee.append("empe_birtdate", values.empe_birtdate);
-      employee.append("empe_phone_number", values.empe_phone_number);
-      employee.append("empe_hiredate", values.empe_hiredate);
-      employee.append("empe_salary", parseInt(values.empe_salary));
-      employee.append("empe_position", values.empe_position);
-      employee.append("empe_department_name", values.empe_department_name);
-      files.empe_image && employee.append("empe_image", files.empe_image);
-
-      for (var value of employee.entries()) {
-        console.log(value);
-      }
-
       ApiEmployees.createMulti(employee).then((data) => {
         if (data.errors) {
           console.log("create new record failed");
@@ -98,11 +109,12 @@ export default function AddEditEmployees(props) {
         }
       });
     } else if (props.employee.actionType === "Edit") {
-      ApiEmployees.update(values).then((data) => {
-        if (data.error) {
-          setValues({ ...values, error: data.error });
+      ApiEmployees.updateMulti(employee).then((data) => {
+        if (data.errors) {
+          console.log("create new record failed");
+          setValues({ ...values, error: data.errors[0].message });
         } else {
-          setValues({ ...values, error: "", open: true });
+          console.log("succeed");
         }
       });
     }
@@ -296,15 +308,6 @@ export default function AddEditEmployees(props) {
                             <option value="sales">Sales</option>
                           </select>
                         </div>
-                        {blob.image && (
-                          <div className="mx-auto h-48 w-24 text-gray-400">
-                            <img
-                              src="https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=200&q=200"
-                              alt=""
-                              className="mx-auto h-48 w-48"
-                            />
-                          </div>
-                        )}
                         <div className="ml-28 mb-2 h-48 w-24 text-gray-400">
                           <img
                             src={blob.empe_image}

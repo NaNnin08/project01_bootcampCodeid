@@ -51,6 +51,19 @@ const update = async (data) => {
   }
 };
 
+const updateMulti = async (data) => {
+  const id = parseInt(data.get("empe_id"));
+  try {
+    let response = await axios.put(
+      `/api/employees/updateMultipart/${id}`,
+      data
+    );
+    return await response.data;
+  } catch (err) {
+    return await err.message;
+  }
+};
+
 const remove = async (data) => {
   const empe_id = parseInt(data);
   try {
@@ -61,11 +74,22 @@ const remove = async (data) => {
   }
 };
 
+const showImage = async (blobUrl, fileName) => {
+  try {
+    let response = await axios.get(blobUrl, { responseType: "blob" });
+    return await new File([response.data], fileName);
+  } catch (error) {
+    return await error.message;
+  }
+};
+
 export default {
   list,
   create,
   createMulti,
   findOne,
   update,
+  updateMulti,
   remove,
+  showImage,
 };

@@ -157,6 +157,58 @@ const createProfile = (req, res) => {
     });
 };
 
+const updateProfile = async (req, res) => {
+  if (!fs.existsSync(pathDir)) {
+    fs.mkdirSync(pathDir);
+  }
+
+  const form = formidable({
+    multiples: true,
+    uploadDir: pathDir,
+    keepExtensions: true,
+  });
+
+  form
+    .on("fileBegin", function (name, file) {
+      //rename the incoming file to the file's name
+      file.path = pathDir + file.name;
+    })
+    .parse(req, async (err, fields, files) => {
+      if (err) {
+        res.status(400).json({
+          message: "Image tidak bisa diupload",
+        });
+      }
+
+      let employee = new req.context.models.Employees(fields);
+      //employee = extend(employee,fields)
+
+      if (files) {
+        employee.empe_image = files.empe_image.name;
+        console.log(employee);
+      }
+
+      try {
+        const result = await req.context.models.Employees.update(
+          employee.dataValues,
+          { returning: true, where: { empe_id: parseInt(req.params.id) } }
+        );
+        return res.send(result);
+      } catch (error) {
+        res.send(error.message);
+      }
+    });
+};
+
+const photo = async (req, res, next) => {
+  const fileName = `${pathDir}/${req.params.filename}`;
+
+  if (req.params.filename !== "null") {
+    res.set("Content-Type", "image/jpeg");
+    return res.download(fileName);
+  }
+};
+
 export default {
   create,
   findAll,
@@ -167,4 +219,6 @@ export default {
   multiImage,
   createII,
   createProfile,
+  updateProfile,
+  photo,
 };
