@@ -8,6 +8,18 @@ const create = async (req, res) => {
   return res.send(pa);
 };
 
+const createMultipart = async (req, res) => {
+  const dataEmployee = req.body;
+
+  for (const data of dataEmployee) {
+    await createEmp(req, res, data);
+  }
+};
+
+const createEmp = async (req, res, data) => {
+  await req.context.models.Pa.create(data).catch((err) => console.log(err));
+};
+
 //findAll = select * from regions
 const findAll = async (req, res) => {
   const pa = await req.context.models.Pa.findAll({
@@ -55,4 +67,5 @@ export default {
   findOne,
   update,
   remove,
+  createMultipart,
 };

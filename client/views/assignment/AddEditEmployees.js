@@ -18,6 +18,7 @@ export default function AddEditAssignment(props) {
 
   const [employees, setEmployees] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [employee, setEmployee] = useState([]);
 
   // gunakan useEffect untuk edit region
   useEffect(() => {
@@ -57,36 +58,6 @@ export default function AddEditAssignment(props) {
     }
   }, [props.assignment.actionType]);
 
-  const handleChange = (name) => (event) => {
-    setValues({ ...values, [name]: event.target.value });
-  };
-
-  const onSubmit = () => {
-    const data = {
-      pras_id: values.pras_id || undefined,
-      pras_staus: values.pras_staus || undefined,
-      pras_proj_id: values.pras_proj_id || undefined,
-      pras_empe_id: values.pras_empe_id || undefined,
-    };
-    if (props.assignment.actionType === "Add") {
-      //call api u/ insert row
-      ApiAssignment.create(data).then((result) => {
-        console.log(result);
-      });
-    } else if (props.assignment.actionType === "Edit") {
-      ApiAssignment.update(data).then((data) => {
-        if (data.error) {
-          setValues({ ...values, error: data.error });
-        } else {
-          setValues({ ...values, error: "", open: true });
-        }
-      });
-    }
-
-    props.setModal();
-    props.setStatus();
-  };
-
   useEffect(() => {
     const Status = projects
       .filter((data) => data.proj_id === parseInt(values.pras_proj_id))
@@ -106,7 +77,78 @@ export default function AddEditAssignment(props) {
       })[0];
 
     setValues({ ...values, pras_staus: Status });
+
+    employees.forEach((data) =>
+      employee.push({ id: data.empe_id, status: false })
+    );
   }, [values.pras_proj_id]);
+
+  const handleChange = (name) => (event) => {
+    setValues({ ...values, [name]: event.target.value });
+  };
+
+  const handleEmployee = (name) => (event) => {
+    const checkBox = employee.map((data) =>
+      data.id === name ? { ...data, status: !data.status } : data
+    );
+
+    setEmployee(checkBox);
+
+    console.log(employee);
+  };
+
+  const onSubmit = () => {
+    let Employee = [];
+
+    employee
+      .filter((data) => data.status === true)
+      .map(
+        (data) =>
+          (Employee = [
+            ...Employee,
+            {
+              pras_id: values.pras_id,
+              pras_staus: values.pras_staus,
+              pras_proj_id: parseInt(values.pras_proj_id),
+              pras_empe_id: parseInt(data.id),
+            },
+          ])
+      );
+    // employee.map(
+    //   (id) =>
+    //     (data = [
+    //       ...data,
+    //       {
+    //         pras_id: values.pras_id,
+    //         pras_staus: values.pras_staus,
+    //         pras_proj_id: parseInt(values.pras_proj_id),
+    //         pras_empe_id: parseInt(id),
+    //       },
+    //     ])
+    // );
+
+    // const data = {
+    //   pras_id: values.pras_id || undefined,
+    //   pras_staus: values.pras_staus || undefined,
+    //   pras_proj_id: values.pras_proj_id || undefined,
+    //   pras_empe_id: values.pras_empe_id || undefined,
+    // };
+    if (props.assignment.actionType === "Add") {
+      //call api u/ insert row
+      ApiAssignment.createMulti(Employee);
+    } else if (props.assignment.actionType === "Edit") {
+      ApiAssignment.update(data).then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+        } else {
+          setValues({ ...values, error: "", open: true });
+        }
+      });
+    }
+
+    props.setModal();
+    props.setStatus();
+  };
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -197,7 +239,7 @@ export default function AddEditAssignment(props) {
                           </select>
                         </div>
                         {values.pras_proj_id && (
-                          <div className="grid grid-cols-4 gap-2 mb-2">
+                          <div className="grid grid-cols-4 gap-2 mb-1 mt-2">
                             <label
                               htmlFor="pras_empe_id"
                               className="col-span-1"
@@ -212,7 +254,7 @@ export default function AddEditAssignment(props) {
                             />
                           </div>
                         )}
-                        <div className="grid grid-cols-4 gap-2 mb-2">
+                        {/* <div className="grid grid-cols-4 gap-2 mb-2">
                           <label
                             htmlFor="pras_empe_id"
                             className="col-span-1 mt-2"
@@ -241,7 +283,38 @@ export default function AddEditAssignment(props) {
                                 );
                               })}
                           </select>
-                        </div>
+                        </div> */}
+                        {values.pras_proj_id && (
+                          <div className="grid grid-cols-4 gap-2 mb-2">
+                            <label
+                              htmlFor="pras_empe_id"
+                              className="col-span-1 mt-2"
+                            >
+                              Employee
+                            </label>
+                            <div className="flex-row col-span-3 mt-3">
+                              {employees.map((data) => {
+                                return (
+                                  <div key={data.empe_id} className="flex">
+                                    <input
+                                      type="checkbox"
+                                      name="empe_id"
+                                      value={data.empe_id}
+                                      className="mt-1"
+                                      onChange={handleEmployee(data.empe_id)}
+                                    />
+                                    <label
+                                      for={data.empe_full_name}
+                                      className="ml-1"
+                                    >
+                                      {data.empe_full_name}
+                                    </label>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
                       </form>
                     </div>
                   </div>
