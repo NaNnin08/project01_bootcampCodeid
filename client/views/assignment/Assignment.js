@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ApiAssignment from "./ApiAssignment";
 import Header from "../../components/layout/Header";
 import AddEditAssignment from "./AddEditEmployees";
 import ReactTooltip from "react-tooltip";
 import { PencilAltIcon, TrashIcon } from "@heroicons/react/solid";
+import { NavContext } from "../MainLayout";
 
 export const assignment = () => {
   const [assignments, setAssignments] = useState([]);
@@ -15,6 +16,8 @@ export const assignment = () => {
   const [modal, setModal] = useState(false);
   const [status, setStatus] = useState(false);
 
+  const { setBorder } = useContext(NavContext);
+
   useEffect(() => {
     ApiAssignment.list()
       .then((data) => {
@@ -25,6 +28,13 @@ export const assignment = () => {
       });
 
     setStatus(false);
+
+    setBorder({
+      dasbord: false,
+      employees: false,
+      projects: false,
+      assignment: true,
+    });
   }, [status]);
 
   const onCreate = async (id) => {

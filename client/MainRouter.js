@@ -14,9 +14,9 @@ const MainRouter = () => {
     <>
       <Switch>
         <Route exact path="/hr/" component={Landing} />
-        <Route exact path="/hr/signup/" component={Signup} />
-        <Route exact path="/hr/signin/" component={Signin} />
         <MainLayout>
+          <Route exact path="/hr/signup/" component={Signup} />
+          <Route exact path="/hr/signin/" component={Signin} />
           <Route exact path="/hr/dashboard/" component={Home} />
           <Route exact path="/hr/projects/" component={Projects} />
           <Route exact path="/hr/employees/" component={Employees} />

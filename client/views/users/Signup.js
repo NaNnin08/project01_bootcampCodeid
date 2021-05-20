@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import Favicon from "../../assets/images/icon.svg";
+import { NavContext } from "../MainLayout";
 import ApiUser from "./ApiUser";
 
 export const Signup = () => {
@@ -13,6 +14,8 @@ export const Signup = () => {
 
   const [user, setUser] = useState([]);
 
+  const { setNav } = useContext(NavContext);
+
   useEffect(() => {
     ApiUser.list()
       .then((data) => {
@@ -21,6 +24,8 @@ export const Signup = () => {
       .catch((err) => {
         console.log(err);
       });
+
+    setNav(true);
   }, []);
 
   const handleChange = (name) => (event) => {
@@ -58,14 +63,14 @@ export const Signup = () => {
       </Helmet>
 
       <div className="flex flex-col md:flex-row place-items-center md:place-items-start">
-        <div className="flex-none md:w-2/3 mt-10 hidden md:block">
+        <div className="flex-none md:w-2/3 hidden md:block">
           <img
             src={require(`../../assets/images/project-background.svg`).default}
             alt="bg"
           />
         </div>
         <div className="flex-none md:w-1/3">
-          <div className="max-w-lg px-4 py-5 my-10 mx-10 border border-green-500 shadow-lg rounded">
+          <div className="max-w-lg px-4 py-5 my-3 mx-3 bg-gray-300 shadow-lg rounded">
             <div className="text-left p-0 font-sans">
               <h1 className=" text-gray-800 text-3xl font-medium text-center">
                 Create an account

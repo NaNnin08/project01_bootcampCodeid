@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Header from "../../components/layout/Header";
 import ApiEmployees from "./ApiEmployees";
 import AddEditEmployees from "./AddEditEmployees";
+import { NavContext } from "../MainLayout";
 
 export const Employees = () => {
   const [employees, setEmployees] = useState([]);
@@ -14,6 +15,8 @@ export const Employees = () => {
   const [modal, setModal] = useState(false);
   const [status, setStatus] = useState(false);
 
+  const { setBorder } = useContext(NavContext);
+
   useEffect(() => {
     ApiEmployees.list()
       .then((data) => {
@@ -23,6 +26,12 @@ export const Employees = () => {
       .catch((err) => {
         console.log(err);
       });
+    setBorder({
+      dasbord: false,
+      employees: true,
+      projects: false,
+      assignment: false,
+    });
   }, [status]);
 
   const onCreate = async () => {

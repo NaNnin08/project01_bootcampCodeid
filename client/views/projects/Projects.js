@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Header from "../../components/layout/Header";
 import AddEditProjects from "./AddEditProjects";
 import ApiProjects from "./ApiProjects";
 
 import { PencilAltIcon, TrashIcon } from "@heroicons/react/solid";
+import { NavContext } from "../MainLayout";
 
 export function Projects() {
   const [projects, setProjects] = useState([]);
 
   const [modal, setModal] = useState(false);
   const [status, setStatus] = useState(false);
+
+  const { setBorder } = useContext(NavContext);
 
   const [project, setProject] = useState({
     proj_id: undefined,
@@ -35,6 +38,13 @@ export function Projects() {
       .catch((err) => {
         console.log(err);
       });
+
+    setBorder({
+      dasbord: false,
+      employees: false,
+      projects: true,
+      assignment: false,
+    });
   }, [status]);
 
   const onCreate = async () => {

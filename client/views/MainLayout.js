@@ -1,12 +1,22 @@
-import React, { useState } from "react";
+import React, { createContext, useState } from "react";
 import Favicon from "../assets/images/icon.svg";
 import { Helmet } from "react-helmet";
 import Navbar from "../components/layout/Navbar";
-import Landing from "./Landing";
 import Footer from "../components/layout/Footer";
+
+export const NavContext = createContext();
 
 export default function MainLayout(props) {
   const [isLogin, setIsLogin] = useState(true);
+
+  const [values, setValue] = useState("");
+
+  console.log(values);
+
+  const [nav, setNav] = useState(false);
+
+  const [border, setBorder] = useState({});
+
   return (
     <div className="bg-gray-100">
       <Helmet>
@@ -14,21 +24,32 @@ export default function MainLayout(props) {
         <link rel="shortcut icon" href={Favicon} />
       </Helmet>
 
-      <Navbar setIsLogin={() => setIsLogin(!isLogin)} />
+      <Navbar
+        border={border}
+        sendToParent={setValue}
+        view={nav}
+        isLogin={setIsLogin}
+      />
 
       {isLogin ? (
         <main>
           <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
             {/* Replace with your content */}
-            {props.children}
+            <NavContext.Provider value={{ setNav, setBorder, setIsLogin }}>
+              {props.children}
+            </NavContext.Provider>
             {/* /End replace */}
           </div>
         </main>
       ) : (
-        <Landing />
+        <div className="min-h-screen">
+          <p className="border border-black w-1/2 py-3 text-center text-4xl mt-36 mx-auto text-red-600 font-bold">
+            Harap Login Untuk Mengakses Halaman ini!
+          </p>
+        </div>
       )}
 
-      <Footer />
+      <Footer view={nav} />
     </div>
   );
 }

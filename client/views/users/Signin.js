@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import ProjectImage from "../../assets/images/sign-in.svg";
 import Favicon from "../../assets/images/icon.svg";
 import ApiUser from "./ApiUser";
+import { NavContext } from "../MainLayout";
 
 export const Signin = () => {
   const [values, setValues] = useState({
     user_email: "",
     user_password: "",
+  });
+
+  const { setNav } = useContext(NavContext);
+
+  useEffect(() => {
+    setNav(true);
   });
 
   const handleChange = (name) => (event) => {
@@ -24,7 +31,7 @@ export const Signin = () => {
     if (user.user_email && user.user_password) {
       ApiUser.login(user).then((result) => {
         console.log(result.users);
-        alert(result.token);
+        alert("Welcome");
         location.href = "/hr/dashboard/";
       });
     } else {
@@ -32,7 +39,7 @@ export const Signin = () => {
     }
   };
   return (
-    <div className="md:bg-gray-300 md:min-h-screen">
+    <div className="md:bg-gray-300 md:min-h-screen fixed top-0 w-full left-0">
       <Helmet>
         <title>Login</title>
         <link rel="shortcut icon" href={Favicon} />

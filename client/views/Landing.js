@@ -2,6 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import Favicon from "../assets/images/icon.svg";
+import FooterLanding from "../components/layout/FooterLanding";
 import NavbarLanding from "../components/layout/NavbarLanding";
 
 const Landing = () => {
@@ -571,13 +572,9 @@ const Landing = () => {
               </g>
             </svg>
           </div>
-
-          {/* <img
-            src={require(`../assets/images/bg-landing.svg`).default}
-            alt="bg"
-          /> */}
         </div>
       </div>
+      <FooterLanding />
     </>
   );
 };

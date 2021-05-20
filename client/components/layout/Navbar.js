@@ -5,39 +5,33 @@ import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import Icon from "../../assets/images/project-icon.svg";
 import ApiUser from "../../views/users/ApiUser";
 
-const defaultState = {
-  dasbord: false,
-  employees: false,
-  projects: false,
-  assignment: false,
-};
-
 export default function Navbar(props) {
-  const [isCookie, setIsCookie] = useState();
+  const [login, setLogin] = useState(true);
 
-  const [border, setBorder] = useState({
-    dasbord: false,
-    employees: false,
-    projects: false,
-    assignment: false,
-  });
+  const Border = props.border;
+
+  const sendData = () => {
+    props.sendToParent("12");
+  };
 
   useEffect(() => {
-    let cookieValue = document.cookie.substr(2);
-    setIsCookie(cookieValue);
+    sendData();
   }, []);
 
   const handleClick = () => {
     ApiUser.logout().then((result) => {
       console.log(result);
     });
-    location.href = "/hr/";
-    props.sendToParent(isCookie);
+    props.isLogin(false);
+    setLogin(!login);
   };
 
   return (
     <>
-      <Disclosure as="nav" className="bg-green-500">
+      <Disclosure
+        as="nav"
+        className={"bg-green-500 " + (props.view && "hidden")}
+      >
         {({ open }) => (
           <>
             <div className="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8 overflow-hidden">
@@ -54,15 +48,7 @@ export default function Navbar(props) {
                         to="/hr/dashboard/"
                         className={
                           "text-gray-700 hover:text-black px-3 pb-3 font-medium" +
-                          (border.dasbord && " border-b-4")
-                        }
-                        onClick={() =>
-                          setBorder({
-                            dasbord: true,
-                            employees: false,
-                            projects: false,
-                            assignment: false,
-                          })
+                          (Border.dasbord && " border-b-4")
                         }
                       >
                         Dashboard
@@ -71,15 +57,7 @@ export default function Navbar(props) {
                         to="/hr/employees/"
                         className={
                           "text-gray-700 hover:text-black px-3 pb-3 font-medium" +
-                          (border.employees && " border-b-4")
-                        }
-                        onClick={() =>
-                          setBorder({
-                            dasbord: false,
-                            employees: true,
-                            projects: false,
-                            assignment: false,
-                          })
+                          (Border.employees && " border-b-4")
                         }
                       >
                         Employees
@@ -88,15 +66,7 @@ export default function Navbar(props) {
                         to="/hr/projects/"
                         className={
                           "text-gray-700 hover:text-black px-3 pb-3 font-medium" +
-                          (border.projects && " border-b-4")
-                        }
-                        onClick={() =>
-                          setBorder({
-                            dasbord: false,
-                            employees: false,
-                            projects: true,
-                            assignment: false,
-                          })
+                          (Border.projects && " border-b-4")
                         }
                       >
                         Projects
@@ -105,15 +75,7 @@ export default function Navbar(props) {
                         to="/hr/assignment/"
                         className={
                           "text-gray-700 hover:text-black px-3 pb-3 font-medium" +
-                          (border.assignment && " border-b-4")
-                        }
-                        onClick={() =>
-                          setBorder({
-                            dasbord: false,
-                            employees: false,
-                            projects: false,
-                            assignment: true,
-                          })
+                          (Border.assignment && " border-b-4")
                         }
                       >
                         Assignment
@@ -123,7 +85,35 @@ export default function Navbar(props) {
                 </div>
                 <div className="hidden md:block">
                   <div className="ml-4 flex items-center md:ml-6  text-base">
-                    <Link
+                    {login ? (
+                      <>
+                        <p className="mr-2">Welcome, user-name</p>
+                        <Link
+                          className="hover:bg-green-600 px-3 py-2 shadow-xl border border-green-600 rounded font-medium"
+                          onClick={() => handleClick()}
+                        >
+                          Sign out
+                        </Link>
+                      </>
+                    ) : (
+                      <>
+                        <Link
+                          to="/hr/signup/"
+                          className="hover:bg-gray-200 px-3 py-2 rounded border border-gray-300 font-medium bg-white shadow-xl"
+                          onClick={() => props.isLogin(true)}
+                        >
+                          Sign up
+                        </Link>
+                        <Link
+                          to="/hr/signin/"
+                          className="hover:bg-green-600 px-3 py-2 shadow-xl border border-green-600 rounded ml-1 font-medium"
+                          onClick={() => props.isLogin(true)}
+                        >
+                          Sign in
+                        </Link>
+                      </>
+                    )}
+                    {/* <Link
                       to="/hr/signup/"
                       className="hover:bg-gray-200 px-3 py-2 rounded border border-gray-300 font-medium bg-white shadow-xl"
                     >
@@ -141,7 +131,7 @@ export default function Navbar(props) {
                       onClick={() => handleClick()}
                     >
                       Sign out
-                    </Link>
+                    </Link> */}
                   </div>
                 </div>
                 <div className="-mr-2 flex md:hidden">

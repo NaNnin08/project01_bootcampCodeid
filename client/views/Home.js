@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import HeaderStats from "../components/dasboard/HeaderStats";
 import axios from "axios";
 import ChartStats from "../components/dasboard/ChartStats";
+import { NavContext } from "./MainLayout";
 
 export default function Home() {
   const [datas, setDatas] = useState({
@@ -10,6 +11,8 @@ export default function Home() {
     assignment: [],
     user: [],
   });
+
+  const { setBorder } = useContext(NavContext);
 
   const fetchData = () => {
     const employees = axios.get(`/api/employees/`);
@@ -36,79 +39,87 @@ export default function Home() {
 
   useEffect(() => {
     fetchData();
+    setBorder({
+      dasbord: true,
+      employees: false,
+      projects: false,
+      assignment: false,
+    });
   }, []);
 
   return (
-    <div className="min-h-screen">
-      <div className="absolute left-0 w-full py-3 pl-5 md:pl-12 -mt-6 bg-white shadow-md">
-        <p className="opacity-50">Project Assignment</p>
-        <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate">
-          Dasboard
-        </h2>
-      </div>
+    <>
+      <div className="min-h-screen">
+        <div className="absolute left-0 w-full py-3 pl-5 md:pl-12 -mt-6 bg-white shadow-md">
+          <p className="opacity-50">Project Assignment</p>
+          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate">
+            Dasboard
+          </h2>
+        </div>
 
-      <HeaderStats data={datas} />
+        <HeaderStats data={datas} />
 
-      <ChartStats data2={datas} />
+        <ChartStats data2={datas} />
 
-      <div className="flex px-4 mt-12">
-        <div className="overflow-x-auto w-full">
-          <table className="mx-auto max-w-4xl w-1/2 whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden">
-            <thead className="bg-gray-50">
-              <tr className="text-gray-600 text-left">
-                <th className="font-semibold text-sm uppercase px-6 py-4">
-                  Projects
-                </th>
-                <th className="font-semibold text-sm uppercase px-6 py-4">
-                  Status
-                </th>
-                <th className="font-semibold text-sm uppercase px-6 py-4">
-                  Employees
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {datas.projects.map(
-                (data) =>
-                  datas.assignment.filter(
-                    (data_ass) => data_ass.pras_proj_id === data.proj_id
-                  ).length > 0 && (
-                    <tr key={data.proj_id}>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center space-x-3">
-                          <div>
-                            <p className="">{data.proj_name}</p>
+        <div className="flex px-4 mt-12">
+          <div className="overflow-x-auto w-full">
+            <table className="mx-auto max-w-4xl w-1/2 whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden">
+              <thead className="bg-gray-50">
+                <tr className="text-gray-600 text-left">
+                  <th className="font-semibold text-sm uppercase px-6 py-4">
+                    Projects
+                  </th>
+                  <th className="font-semibold text-sm uppercase px-6 py-4">
+                    Status
+                  </th>
+                  <th className="font-semibold text-sm uppercase px-6 py-4">
+                    Employees
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {datas.projects.map(
+                  (data) =>
+                    datas.assignment.filter(
+                      (data_ass) => data_ass.pras_proj_id === data.proj_id
+                    ).length > 0 && (
+                      <tr key={data.proj_id}>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center space-x-3">
+                            <div>
+                              <p className="">{data.proj_name}</p>
+                            </div>
                           </div>
-                        </div>
-                      </td>
+                        </td>
 
-                      <td className="px-6 py-4">
-                        <div className="flex items-center space-x-3">
-                          <div>
-                            <p className="capitalize">
-                              {data.projects_assignments[0].pras_staus}
-                            </p>
-                          </div>
-                        </div>
-                      </td>
-
-                      <td className="px-6 py-4">
-                        {datas.assignment.map(
-                          (data_ass) =>
-                            data_ass.pras_proj_id === data.proj_id && (
-                              <p className="">
-                                {data_ass.employee.empe_full_name}
+                        <td className="px-6 py-4">
+                          <div className="flex items-center space-x-3">
+                            <div>
+                              <p className="capitalize">
+                                {data.projects_assignments[0].pras_staus}
                               </p>
-                            )
-                        )}
-                      </td>
-                    </tr>
-                  )
-              )}
-            </tbody>
-          </table>
+                            </div>
+                          </div>
+                        </td>
+
+                        <td className="px-6 py-4">
+                          {datas.assignment.map(
+                            (data_ass) =>
+                              data_ass.pras_proj_id === data.proj_id && (
+                                <p className="">
+                                  {data_ass.employee.empe_full_name}
+                                </p>
+                              )
+                          )}
+                        </td>
+                      </tr>
+                    )
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
