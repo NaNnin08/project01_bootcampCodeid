@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Header from "../../components/layout/Header";
 import ApiEmployees from "./ApiEmployees";
 import AddEditEmployees from "./AddEditEmployees";
@@ -111,9 +112,12 @@ export const Employees = () => {
                     <p className="capitalize">{data.empe_department_name}</p>
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <a href="#" className="text-purple-800 hover:underline">
+                    <Link
+                      to={"/hr/employee/" + data.empe_id}
+                      className="text-purple-800 hover:underline"
+                    >
                       See
-                    </a>
+                    </Link>
                   </td>
                   <td className="px-6 py-4 text-center">
                     <a

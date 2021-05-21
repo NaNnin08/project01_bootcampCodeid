@@ -8,6 +8,7 @@ import { Projects } from "./views/projects/Projects";
 import { Employees } from "./views/employees/Employees";
 import { assignment } from "./views/assignment/Assignment";
 import Landing from "./views/Landing";
+import { DetailEmployee } from "./views/employees/DetailEmployee";
 
 const MainRouter = () => {
   return (
@@ -21,6 +22,7 @@ const MainRouter = () => {
           <Route exact path="/hr/projects/" component={Projects} />
           <Route exact path="/hr/employees/" component={Employees} />
           <Route exact path="/hr/assignment/" component={assignment} />
+          <Route exact path="/hr/employee/:id" component={DetailEmployee} />
         </MainLayout>
       </Switch>
     </>
