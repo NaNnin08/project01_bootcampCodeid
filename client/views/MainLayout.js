@@ -3,11 +3,14 @@ import Favicon from "../assets/images/icon.svg";
 import { Helmet } from "react-helmet";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import { useUIState } from "../UserContext";
 
 export const NavContext = createContext();
 
 export default function MainLayout(props) {
   const [isLogin, setIsLogin] = useState(true);
+
+  const { login } = useUIState();
 
   const [values, setValue] = useState("");
 
@@ -31,11 +34,11 @@ export default function MainLayout(props) {
         isLogin={setIsLogin}
       />
 
-      {isLogin ? (
+      {login ? (
         <main>
           <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
             {/* Replace with your content */}
-            <NavContext.Provider value={{ setNav, setBorder, setIsLogin }}>
+            <NavContext.Provider value={{ setNav, setBorder }}>
               {props.children}
             </NavContext.Provider>
             {/* /End replace */}

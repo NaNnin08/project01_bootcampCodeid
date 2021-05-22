@@ -150,6 +150,7 @@ const createProfile = (req, res) => {
         const result = await req.context.models.Employees.create(
           employee.dataValues
         );
+        console.log(result);
         return res.send(result);
       } catch (error) {
         res.send(error.message);

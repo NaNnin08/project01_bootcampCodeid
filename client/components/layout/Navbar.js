@@ -4,11 +4,16 @@ import { Disclosure } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import Icon from "../../assets/images/project-icon.svg";
 import ApiUser from "../../views/users/ApiUser";
+import { useUIState } from "../../UserContext";
+import { useUIDispatch } from "../../UserContext";
 
 export default function Navbar(props) {
-  const [login, setLogin] = useState(true);
-
   const Border = props.border;
+
+  const { user, login } = useUIState();
+  const { logout } = useUIDispatch();
+
+  console.log(user);
 
   const sendData = () => {
     props.sendToParent("12");
@@ -22,7 +27,7 @@ export default function Navbar(props) {
     ApiUser.logout().then((result) => {
       console.log(result);
     });
-    props.isLogin(false);
+    logout();
     setLogin(!login);
   };
 
@@ -80,6 +85,15 @@ export default function Navbar(props) {
                       >
                         Assignment
                       </Link>
+                      <Link
+                        to="/hr/users/"
+                        className={
+                          "text-gray-700 hover:text-black px-3 pb-3 font-medium" +
+                          (Border.assignment && " border-b-4")
+                        }
+                      >
+                        Users
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -87,7 +101,7 @@ export default function Navbar(props) {
                   <div className="ml-4 flex items-center md:ml-6  text-base">
                     {login ? (
                       <>
-                        <p className="mr-2">Welcome, user-name</p>
+                        <p className="mr-2">Welcome, {user.user_name}</p>
                         <Link
                           className="hover:bg-green-600 px-3 py-2 shadow-xl border border-green-600 rounded font-medium"
                           onClick={() => handleClick()}
@@ -100,14 +114,12 @@ export default function Navbar(props) {
                         <Link
                           to="/hr/signup/"
                           className="hover:bg-gray-200 px-3 py-2 rounded border border-gray-300 font-medium bg-white shadow-xl"
-                          onClick={() => props.isLogin(true)}
                         >
                           Sign up
                         </Link>
                         <Link
                           to="/hr/signin/"
                           className="hover:bg-green-600 px-3 py-2 shadow-xl border border-green-600 rounded ml-1 font-medium"
-                          onClick={() => props.isLogin(true)}
                         >
                           Sign in
                         </Link>

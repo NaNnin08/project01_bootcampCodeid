@@ -1,11 +1,17 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Favicon from "../assets/images/icon.svg";
 import FooterLanding from "../components/layout/FooterLanding";
 import NavbarLanding from "../components/layout/NavbarLanding";
+import { useUIState } from "../UserContext";
 
 const Landing = () => {
+  const { login } = useUIState();
+
+  if (login) {
+    return <Redirect to={"/hr/dashboard/"} />;
+  }
   return (
     <>
       <Helmet>

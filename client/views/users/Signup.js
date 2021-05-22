@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import Favicon from "../../assets/images/icon.svg";
-import { NavContext } from "../MainLayout";
+import { useHistory } from "react-router-dom";
 import ApiUser from "./ApiUser";
 
 export const Signup = () => {
@@ -13,8 +13,7 @@ export const Signup = () => {
   });
 
   const [user, setUser] = useState([]);
-
-  const { setNav } = useContext(NavContext);
+  const history = useHistory();
 
   useEffect(() => {
     ApiUser.list()
@@ -24,8 +23,6 @@ export const Signup = () => {
       .catch((err) => {
         console.log(err);
       });
-
-    setNav(true);
   }, []);
 
   const handleChange = (name) => (event) => {
@@ -48,7 +45,7 @@ export const Signup = () => {
           console.log(result);
         });
         alert("Thank to Register, Please login to your account");
-        location.href = "/hr/signin/";
+        history.push("/hr/signin/");
       }
     } else {
       alert("Please fill all data");
@@ -69,8 +66,8 @@ export const Signup = () => {
             alt="bg"
           />
         </div>
-        <div className="flex-none md:w-1/3">
-          <div className="max-w-lg px-4 py-5 my-3 mx-3 bg-gray-300 shadow-lg rounded">
+        <div className="flex-none md:w-1/3 mt-5">
+          <div className="max-w-lg px-4 py-5 my-3 mx-10 bg-gray-300 shadow-lg rounded">
             <div className="text-left p-0 font-sans">
               <h1 className=" text-gray-800 text-3xl font-medium text-center">
                 Create an account
@@ -161,11 +158,12 @@ export const Signup = () => {
                 </button>
               </div>
             </form>
-            <a className="" href="/hr/signin/" data-test="Link">
-              <span className="block  p-5 text-center text-gray-800  text-xs ">
-                Already have an account?
-              </span>
-            </a>
+            <span
+              className="block p-5 text-center text-gray-800 text-xs cursor-pointer"
+              onClick={() => history.push("/hr/signin/")}
+            >
+              Already have an account?
+            </span>
           </div>
         </div>
       </div>

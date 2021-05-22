@@ -3,7 +3,8 @@ import { Helmet } from "react-helmet";
 import ProjectImage from "../../assets/images/sign-in.svg";
 import Favicon from "../../assets/images/icon.svg";
 import ApiUser from "./ApiUser";
-import { NavContext } from "../MainLayout";
+import { useUIDispatch } from "../../UserContext";
+import { useHistory } from "react-router-dom";
 
 export const Signin = () => {
   const [values, setValues] = useState({
@@ -11,11 +12,8 @@ export const Signin = () => {
     user_password: "",
   });
 
-  const { setNav } = useContext(NavContext);
-
-  useEffect(() => {
-    setNav(true);
-  });
+  const { add, login } = useUIDispatch();
+  const history = useHistory();
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
@@ -31,8 +29,10 @@ export const Signin = () => {
     if (user.user_email && user.user_password) {
       ApiUser.login(user).then((result) => {
         console.log(result.users);
+        add(result.users);
+        login();
         alert("Welcome");
-        location.href = "/hr/dashboard/";
+        history.push("/hr/dashboard/");
       });
     } else {
       alert("email dan password harap diisi");
