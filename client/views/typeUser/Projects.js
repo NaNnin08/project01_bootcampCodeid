@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import ApiProjects from "../projects/ApiProjects";
 
 export function UserProjects() {
   const [projects, setProjects] = useState([]);
   const [isHover, setIsHover] = useState({});
+
+  const history = useHistory();
 
   useEffect(() => {
     ApiProjects.list()
@@ -27,7 +30,7 @@ export function UserProjects() {
         <div className="grid grid-cols-1 gap-20 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
           {projects.map((data, index) => (
             <div
-              className="relative flex flex-col items-center justify-around p-4 mr-4 w-80 h-80 rounded-2xl mb-5"
+              className="relative flex flex-col items-center justify-around p-4 mr-4 w-80 h-80 rounded-2xl mb-10"
               style={{ transform: "translate(0px, 0px)", zIndex: 1 }}
               onMouseEnter={() => setIsHover({ ...isHover, [index]: true })}
               onMouseLeave={() => setIsHover({ ...isHover, [index]: false })}
@@ -45,7 +48,10 @@ export function UserProjects() {
               ></div>
               {isHover[index] ? (
                 <div className="absolute z-50 opacity-70 transform scale-x-105 scale-y-95 bg-black rounded-xl px-28 py-28 items-center">
-                  <button className="text-white border px-3 py-1">
+                  <button
+                    className="text-white border px-3 py-1"
+                    onClick={() => history.push("/hr/users/" + data.proj_id)}
+                  >
                     Detail
                   </button>
                 </div>

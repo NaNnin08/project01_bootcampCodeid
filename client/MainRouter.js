@@ -10,6 +10,7 @@ import { assignment } from "./views/assignment/Assignment";
 import Landing from "./views/Landing";
 import { DetailEmployee } from "./views/employees/DetailEmployee";
 import { UserProjects } from "./views/typeUser/Projects";
+import { DetailProject } from "./views/typeUser/DetailProject";
 
 const MainRouter = () => {
   return (
@@ -25,6 +26,7 @@ const MainRouter = () => {
           <Route exact path="/hr/assignment/" component={assignment} />
           <Route exact path="/hr/employee/:id" component={DetailEmployee} />
           <Route exact path="/hr/users/" component={UserProjects} />
+          <Route exact path="/hr/users/:id" component={DetailProject} />
         </MainLayout>
       </Switch>
     </>
