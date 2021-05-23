@@ -87,7 +87,7 @@ export const assignment = () => {
                 className="bg-white border-4 border-gray-200"
                 key={data.pras_id}
               >
-                <td className="px-16 py-2 flex flex-row items-center hidden md:block">
+                <td className="px-16 py-2 md:flex flex-row items-center hidden">
                   <img
                     className="h-8 w-8 rounded-full object-cover "
                     src={
