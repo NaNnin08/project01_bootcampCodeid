@@ -3,15 +3,19 @@ import { Link } from "react-router-dom";
 import { Disclosure } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import Icon from "../../assets/images/project-icon.svg";
-import ApiUser from "../../views/users/ApiUser";
 import { useUIState } from "../../UserContext";
 import { useUIDispatch } from "../../UserContext";
+import auth from "../../auth/AuthHelper";
 
 export default function Navbar(props) {
   const Border = props.border;
 
   const { user, login } = useUIState();
   const { logout } = useUIDispatch();
+
+  const userLogin = JSON.parse(sessionStorage.getItem("jwt"));
+
+  console.log(userLogin);
 
   console.log(user);
 
@@ -24,11 +28,12 @@ export default function Navbar(props) {
   }, []);
 
   const handleClick = () => {
-    ApiUser.logout().then((result) => {
-      console.log(result);
+    // ApiUser.logout().then((result) => {
+    //   console.log(result);
+    // });
+    auth.clearJWT(() => {
+      logout();
     });
-    logout();
-    setLogin(!login);
   };
 
   return (
@@ -49,59 +54,71 @@ export default function Navbar(props) {
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-10 space-x-4 text-lg">
-                      <Link
-                        to="/hr/dashboard/"
-                        className={
-                          "text-gray-700 hover:text-black px-3 pb-3 font-medium" +
-                          (Border.dasbord && " border-b-4")
-                        }
-                      >
-                        Dashboard
-                      </Link>
-                      <Link
-                        to="/hr/employees/"
-                        className={
-                          "text-gray-700 hover:text-black px-3 pb-3 font-medium" +
-                          (Border.employees && " border-b-4")
-                        }
-                      >
-                        Employees
-                      </Link>
-                      <Link
-                        to="/hr/projects/"
-                        className={
-                          "text-gray-700 hover:text-black px-3 pb-3 font-medium" +
-                          (Border.projects && " border-b-4")
-                        }
-                      >
-                        Projects
-                      </Link>
-                      <Link
-                        to="/hr/assignment/"
-                        className={
-                          "text-gray-700 hover:text-black px-3 pb-3 font-medium" +
-                          (Border.assignment && " border-b-4")
-                        }
-                      >
-                        Assignment
-                      </Link>
-                      <Link
-                        to="/hr/users/"
-                        className={
-                          "text-gray-700 hover:text-black px-3 pb-3 font-medium" +
-                          (Border.assignment && " border-b-4")
-                        }
-                      >
-                        Users
-                      </Link>
+                      {userLogin ? (
+                        userLogin.users.user_type === "ADMIN" ? (
+                          <div>
+                            <Link
+                              to="/hr/dashboard/"
+                              className={
+                                "text-gray-700 hover:text-black px-3 pb-3 font-medium" +
+                                (Border.dasbord && " border-b-4")
+                              }
+                            >
+                              Dashboard
+                            </Link>
+                            <Link
+                              to="/hr/employees/"
+                              className={
+                                "text-gray-700 hover:text-black px-3 pb-3 font-medium" +
+                                (Border.employees && " border-b-4")
+                              }
+                            >
+                              Employees
+                            </Link>
+                            <Link
+                              to="/hr/projects/"
+                              className={
+                                "text-gray-700 hover:text-black px-3 pb-3 font-medium" +
+                                (Border.projects && " border-b-4")
+                              }
+                            >
+                              Projects
+                            </Link>
+                            <Link
+                              to="/hr/assignment/"
+                              className={
+                                "text-gray-700 hover:text-black px-3 pb-3 font-medium" +
+                                (Border.assignment && " border-b-4")
+                              }
+                            >
+                              Assignment
+                            </Link>
+                            {/* <Link
+                              to="/hr/users/"
+                              className={
+                                "text-gray-700 hover:text-black px-3 pb-3 font-medium" +
+                                (Border.assignment && " border-b-4")
+                              }
+                            >
+                              Users
+                            </Link> */}
+                          </div>
+                        ) : (
+                          <div className="font-medium text-2xl">
+                            Project List
+                          </div>
+                        )
+                      ) : null}
                     </div>
                   </div>
                 </div>
                 <div className="hidden md:block">
                   <div className="ml-4 flex items-center md:ml-6  text-base">
-                    {login ? (
+                    {JSON.parse(sessionStorage.getItem("jwt")) ? (
                       <>
-                        <p className="mr-2">Welcome, {user.user_name}</p>
+                        <p className="mr-2">
+                          Welcome, {userLogin.users.user_name}
+                        </p>
                         <Link
                           className="hover:bg-green-600 px-3 py-2 shadow-xl border border-green-600 rounded font-medium"
                           onClick={() => handleClick()}

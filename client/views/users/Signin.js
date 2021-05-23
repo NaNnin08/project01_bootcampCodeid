@@ -5,6 +5,7 @@ import Favicon from "../../assets/images/icon.svg";
 import ApiUser from "./ApiUser";
 import { useUIDispatch } from "../../UserContext";
 import { useHistory } from "react-router-dom";
+import auth from "../../auth/AuthHelper";
 
 export const Signin = () => {
   const [values, setValues] = useState({
@@ -28,11 +29,21 @@ export const Signin = () => {
 
     if (user.user_email && user.user_password) {
       ApiUser.login(user).then((result) => {
-        console.log(result.users);
-        add(result.users);
-        login();
-        alert("Welcome");
-        history.push("/hr/dashboard/");
+        // console.log(result.users);
+        // add(result.users);
+        // login();
+        // alert("Welcome");
+        // history.push("/hr/dashboard/");
+        auth.authenticate(result, () => {
+          console.log(result.users);
+          add(result.users);
+          login();
+          alert("Welcome");
+          const userLogin = JSON.parse(sessionStorage.getItem("jwt"));
+          userLogin.users.user_type === "ADMIN"
+            ? history.push("/hr/dashboard/")
+            : history.push("/hr/users/");
+        });
       });
     } else {
       alert("email dan password harap diisi");

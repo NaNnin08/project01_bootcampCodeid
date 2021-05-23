@@ -12,6 +12,7 @@ const Landing = () => {
   if (login) {
     return <Redirect to={"/hr/dashboard/"} />;
   }
+
   return (
     <>
       <Helmet>
@@ -34,7 +35,7 @@ const Landing = () => {
             <div className="text-base ml-20 md:ml-0">
               <Link
                 to="/hr/signup/"
-                className="hover:bg-black hover:border-bg-white hover:text-white bg-green-500 px-5 py-3 rounded-md font-medium bg-white"
+                className="hover:bg-black hover:border-bg-white hover:text-white bg-green-500 px-5 py-3 rounded-md font-medium "
               >
                 Sign up
               </Link>

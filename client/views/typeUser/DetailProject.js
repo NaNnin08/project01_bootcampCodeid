@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { CalendarIcon } from "@heroicons/react/solid";
+import { CalendarIcon, ArrowLeftIcon } from "@heroicons/react/solid";
+import { useHistory } from "react-router-dom";
 import ApiProjects from "../projects/ApiProjects";
 import ApiAssignment from "../assignment/ApiAssignment";
 
@@ -7,6 +8,8 @@ export const DetailProject = ({ match }) => {
   const [project, setProject] = useState({});
   const [assignment, setAssignment] = useState([]);
   const [isStatus, setIsStatus] = useState("");
+
+  const history = useHistory();
 
   useEffect(() => {
     ApiProjects.findOne(match.params.id).then((result) => {
@@ -35,12 +38,18 @@ export const DetailProject = ({ match }) => {
   }, []);
   return (
     <div>
+      <div
+        className="flex md:absolute mb-5 cursor-pointer"
+        onClick={() => history.goBack()}
+      >
+        <ArrowLeftIcon className="w-10" />
+      </div>
       <div className="">
         <div className="max-w-4xl bg-white border-2 border-gray-300 p-5 rounded-md tracking-wide shadow-lg mx-auto">
           <div id="header" className="flex relative">
             <div
               className={
-                "absolute right-0 -top-2 capitalize rounded px-1 py-1 " +
+                "absolute right-0 -top-2 text-white font-medium capitalize rounded px-1 py-1 " +
                 (isStatus === "start"
                   ? "bg-green-500"
                   : isStatus === "inprogrees"
@@ -132,7 +141,7 @@ export const DetailProject = ({ match }) => {
               </p>
               <div
                 className={
-                  "mt-4 rounded capitalize w-32 text-center " +
+                  "mt-4 rounded capitalize w-32 text-white font-medium text-center " +
                   (project.proj_category === "software"
                     ? "bg-green-500"
                     : project.proj_category === "maintenance"

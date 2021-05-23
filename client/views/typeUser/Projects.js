@@ -41,8 +41,8 @@ export function UserProjects() {
                   (data.proj_category === "software"
                     ? "bg-green-500"
                     : data.proj_category === "maintenance"
-                    ? "bg-yellow-500"
-                    : "bg-blue-500")
+                    ? "bg-blue-500"
+                    : "bg-yellow-500")
                 }
                 style={{ zIndex: -1 }}
               ></div>
