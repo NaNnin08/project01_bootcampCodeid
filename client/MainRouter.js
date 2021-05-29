@@ -11,6 +11,7 @@ import Landing from "./views/Landing";
 import { DetailEmployee } from "./views/employees/DetailEmployee";
 import { UserProjects } from "./views/typeUser/Projects";
 import { DetailProject } from "./views/typeUser/DetailProject";
+import { example } from "./views/example";
 
 const MainRouter = () => {
   return (
@@ -19,6 +20,7 @@ const MainRouter = () => {
         <Route exact path="/hr/" component={Landing} />
         <Route exact path="/hr/signin/" component={Signin} />
         <Route exact path="/hr/signup/" component={Signup} />
+        <Route exact path="/hr/example/" component={example} />
         <MainLayout>
           <Route exact path="/hr/dashboard/" component={Home} />
           <Route exact path="/hr/projects/" component={Projects} />
