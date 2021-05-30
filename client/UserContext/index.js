@@ -1,7 +1,20 @@
 import React from "react";
 import { reducer, ActionTypes } from "./reducer";
 
-const initialContext = { user: {}, login: false };
+const initialContext = {
+  user:
+    typeof window !== "undefined"
+      ? sessionStorage.getItem("jwt")
+        ? JSON.parse(sessionStorage.getItem("jwt")).users
+        : null
+      : null,
+  login:
+    typeof window !== "undefined"
+      ? sessionStorage.getItem("jwt")
+        ? true
+        : false
+      : null,
+};
 
 const StateContext = React.createContext(initialContext);
 const DispatchContext = React.createContext(undefined);

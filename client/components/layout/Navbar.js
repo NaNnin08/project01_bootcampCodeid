@@ -13,12 +13,6 @@ export default function Navbar(props) {
   const { user, login } = useUIState();
   const { logout } = useUIDispatch();
 
-  const userLogin = JSON.parse(sessionStorage.getItem("jwt"));
-
-  console.log(userLogin);
-
-  console.log(user);
-
   const sendData = () => {
     props.sendToParent("12");
   };
@@ -54,8 +48,8 @@ export default function Navbar(props) {
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-10 space-x-4 text-lg">
-                      {userLogin ? (
-                        userLogin.users.user_type === "ADMIN" ? (
+                      {login ? (
+                        user.user_type === "ADMIN" ? (
                           <div>
                             <Link
                               to="/hr/dashboard/"
@@ -114,11 +108,9 @@ export default function Navbar(props) {
                 </div>
                 <div className="hidden md:block">
                   <div className="ml-4 flex items-center md:ml-6  text-base">
-                    {JSON.parse(sessionStorage.getItem("jwt")) ? (
+                    {login ? (
                       <>
-                        <p className="mr-2">
-                          Welcome, {userLogin.users.user_name}
-                        </p>
+                        <p className="mr-2">Welcome, {user.user_name}</p>
                         <Link
                           className="hover:bg-green-600 px-3 py-2 shadow-xl border border-green-600 rounded font-medium"
                           onClick={() => handleClick()}
