@@ -36,8 +36,8 @@ import devBundle from "./devBundle";
 devBundle.compile(app);
 
 //comment script dibawah before building for production
-const CURRENT_WORKING_DIR = process.cwd();
-app.use("/dist", express.static(path.join(CURRENT_WORKING_DIR, "dist")));
+// const CURRENT_WORKING_DIR = process.cwd();
+// app.use("/dist", express.static(path.join(CURRENT_WORKING_DIR, "dist")));
 
 app.use("/hr/api/v1/test", (req, res) => {
   res.send("Hello HR-Fullstack");
